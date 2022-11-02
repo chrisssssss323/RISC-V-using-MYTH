@@ -1,6 +1,9 @@
 # RISC-V-using-MYTH
 
 # Day 1
+
+## Introduction
+* Overall instruction flow of any CPU -> ISA to RTL to Layout.
 * Leafpad is used to edit the .c files.
 * GCC is used as the C compiler
 * The GNU Compiler Collection is an optimizing compiler produced by the GNU Project supporting various programming languages, hardware architectures and operating systems. The Free Software Foundation distributes GCC as free software under the GNU General Public License.
@@ -9,6 +12,7 @@
 
 ![image](https://user-images.githubusercontent.com/72557903/199459925-6774e5a0-8693-4200-8269-590e454e81f4.png)
 ![image](https://user-images.githubusercontent.com/72557903/199460130-e94556d3-9355-4103-87d9-bbd652182360.png)
+* *mv,ret* -> Also called pseudo-instructions.
 
 * Disassembler ->A program for converting machine code into a low-level symbolic language.
 * -**O1** option
@@ -29,6 +33,29 @@
 * sp -> Stack pointer
 * *lui* -> load upper limit instruction.
 
-
 ![image](https://user-images.githubusercontent.com/72557903/199481112-4d248672-2331-4cdf-9553-543d9e34196f.png)
 ![image](https://user-images.githubusercontent.com/72557903/199480064-309c4264-c0a1-4128-b34d-c315e4cab19c.png)
+
+### Integer number representation.
+
+![image](https://user-images.githubusercontent.com/72557903/199486642-521d3937-6ac4-4036-b3b3-2013585a431c.png)
+
+* Number of patterns that can be represented by RISCV64 is 2^64. 
+* For unsigned numbers ->
+* Lowest number that can be represented is (0)h
+* Maximum nnumber that (FFFF...FF)h
+
+* For signed numbers ->
+* As the standard, we use the twos compliment for our representation of signed numbers.
+* Ranges from (-2^63) to (2^63-1)
+* Data types ->
+![image](https://user-images.githubusercontent.com/72557903/199522646-87c62d64-bcc9-4abb-8e10-d76aeef427a0.png)
+
+# DAY 2
+
+## Application binary interface (ABI)
+
+![image](https://user-images.githubusercontent.com/72557903/199526433-240a2ff0-568f-4301-b355-172b63b155a5.png)
+
+* Why are there 64-bit for registers in RISCV64?
+* 
