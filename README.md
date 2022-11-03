@@ -1,5 +1,47 @@
 # RISC-V-using-MYTH
 
+### Local machine Installation.
+* Info ->
+https://github.com/kunalg123/riscv_workshop_collaterals/blob/master/run.sh
+ 
+    sudo apt-get install git vim -y
+    sudo apt-get install autoconf automake autotools-dev curl libmpc-dev         
+    libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo     
+    gperf libtool patchutils bc zlib1g-dev git libexpat1-dev gtkwave -y
+    cd
+    pwd=$PWD
+    mkdir riscv_toolchain
+    wget "https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14.tar.gz"
+    tar -xvzf riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14.tar.gz 
+    export PATH=$pwd/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin:$PATH
+    sudo apt-get install device-tree-compiler -y
+    git clone https://github.com/riscv/riscv-isa-sim.git
+    cd riscv-isa-sim/
+    mkdir build
+    cd build
+    ../configure --prefix=$pwd/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14
+    make
+    sudo make install
+    cd $pwd/riscv_toolchain
+    git clone https://github.com/riscv/riscv-pk.git
+    cd riscv-pk/
+    mkdir build
+    cd build/
+    ../configure --prefix=$pwd/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14 --host=riscv64-unknown-elf
+    make
+    sudo make install
+    export PATH=$pwd/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/riscv64-unknown-elf/bin:$PATH
+    cd $pwd/riscv_toolchain
+    git clone https://github.com/steveicarus/iverilog.git
+    cd iverilog/
+    git checkout --track -b v10-branch origin/v10-branch
+    git pull 
+    chmod 777 autoconf.sh 
+    ./autoconf.sh 
+    ./configure 
+    make
+    sudo make install 
+
 # Day 1
 
 ## Introduction
@@ -58,4 +100,44 @@
 ![image](https://user-images.githubusercontent.com/72557903/199526433-240a2ff0-568f-4301-b355-172b63b155a5.png)
 
 * Why are there 64-bit for registers in RISCV64?
-* 
+* Memory allocation for double words -> 
+* We can load the value to the registers from the memory and directly as well.
+* RISC-V is little-endian (Little-endian is an order in which the "little end" (least significant value in the sequence) is stored first.)
+* Each memory location is 8-bits wide, so to store a doubleword we need 8 memory locations. So consecutive doublewords will be stored in m(0),m(8),m(16), and so on.
+* *ld* is used to load contents from memory to the 64-bit register.
+* *add* is used to add contents of two registers and store it in the final register.
+* Register sizes is 64 bit in a 64 bit RISCV but the instruction size is still 32 bit.
+* To write the data back to memory, we use the *sd* opcode.
+
+![image](https://user-images.githubusercontent.com/72557903/199654148-d8de5aa3-c2c0-4232-ade9-c89712fb5f7a.png)
+
+* *In intel architecture, 8bytes is a quadword while in RISC-V architecture, 8bytes is doubleword and hence the instruction ld is load doubleword which loads 64bits.
+
+* *Registers hold the operands or instruction that CPU is currently processing. Memory holds the instructions and the data that the currently executing program in CPU requires. Register holds the small amount of data around 32-bits to 64-bits. Memory of the computer can range from some GB to TB.
+* For lots of info on RISC-V ->
+* https://riscv.org/wp-content/uploads/2017/05/riscv-spec-v2.2.pdf
+
+* These instructions that perform operations on unsigned integers are part of the RV64I.
+* These have subtypes ->
+* R-type -> Instructions that perform operations on registers.
+* I-type -> Immediate + Registers.
+* S-type -> ...
+
+![image](https://user-images.githubusercontent.com/72557903/199656991-da502d96-1739-4814-a891-36ae37c9b833.png)
+
+
+* A 1 to 9 counting program.
+* Main program ->
+![image](https://user-images.githubusercontent.com/72557903/199661932-a158b0a0-b5fc-49b2-be7f-acb07489035e.png)
+
+* Load function (load.S)
+![image](https://user-images.githubusercontent.com/72557903/199663108-da0b7261-c5d0-40d3-9c25-8fdc1960e372.png)
+
+* After using RISCV GCC
+![image](https://user-images.githubusercontent.com/72557903/199669818-37907876-af7e-4d0d-bc2b-90e73f6d094b.png)
+![image](https://user-images.githubusercontent.com/72557903/199670056-b5a41458-1eb9-4142-936d-3718148db233.png)
+
+### Basic verification flow using iverilog.
+
+*
+
